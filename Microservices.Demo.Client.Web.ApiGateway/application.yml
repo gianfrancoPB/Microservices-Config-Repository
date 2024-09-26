@@ -114,6 +114,22 @@ Routes:
             userType: SALESMAN      
         DangerousAcceptAnyServerCertificateValidator: true
     -
+        DownstreamPathTemplate: /api/Policies
+        DownstreamScheme: http
+        UpstreamPathTemplate: /api/Policies
+        ServiceName: Microservices.Demo.Policy.API
+        UpstreamHttpMethod: 
+            - Get
+        FileCacheOptions: 
+            TtlSeconds: 15
+        AuthenticationOptions:
+            AuthenticationProviderKey: ApiSecurityAuthenticationScheme
+#            AllowedScopes:
+#                -      
+        RouteClaimsRequirement:
+            userType: SALESMAN      
+        DangerousAcceptAnyServerCertificateValidator: true        
+    -
         DownstreamPathTemplate: /api/PoliciesSearch
         DownstreamScheme: http
         UpstreamPathTemplate: /api/PoliciesSearch
@@ -127,6 +143,24 @@ Routes:
         RouteClaimsRequirement: 
             userType: SALESMAN   
         DangerousAcceptAnyServerCertificateValidator: true    
+
+    -
+        DownstreamPathTemplate: /api/Reports
+        DownstreamScheme: http
+        UpstreamPathTemplate: /api/Reports
+        ServiceName: Microservices.Demo.Report.API
+        UpstreamHttpMethod: 
+            - Get
+        AuthenticationOptions:
+            AuthenticationProviderKey: ApiSecurityAuthenticationScheme
+  #          AllowedScopes: 
+  #              -
+        RouteClaimsRequirement:
+            userType: SALESMAN      
+        DangerousAcceptAnyServerCertificateValidator: true
+        AddHeadersToRequest:
+            AgentLogin: Claims[http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier] > value[0] > |
+
 GlobalConfiguration:
     RequestIdKey: OcRequestId
     AdministrationPath: /administration
